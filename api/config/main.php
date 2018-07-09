@@ -24,12 +24,13 @@ $config['components']['apiUrlManager'] = [
         'class' => 'yii\web\UrlManager',
         'enablePrettyUrl' => true,
         'showScriptName' => false,
-        'suffix' => '.json',
+        'suffix' => '.html',
         'cache' => 'apiUrlManagerCache',
-        'baseUrl' => '/',
+        'baseUrl' => env('API_URL', ''),
         'enableStrictParsing' => true,
         'rules' => require(Yii::getAlias('@route/api.php')),
     ];
+
 $config['components']['urlManager'] = function (){
     return Yii::$app->get('apiUrlManager');
 };
@@ -64,6 +65,14 @@ $config['components']['response'] = [
             'contentType' => $contentType,
         ],
     ],
+];
+
+// 错误处理
+$config['components']['errorHandler'] = [
+    'class' => 'api\base\ErrorHandler',
+    'errorAction' => 'error',
+    'useErrorAction' => true,
+    'memoryReserveSize' => 0,
 ];
 
 return $config;

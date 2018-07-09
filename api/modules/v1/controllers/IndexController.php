@@ -27,7 +27,7 @@ class IndexController extends Controller
             $data = [];
         }
 
-        return $this->formatResult();
+        return $this->formatResult(static::RESPONSE_CODE_HTTP_OK, $data);
     }
 
 }
