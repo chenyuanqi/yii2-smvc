@@ -6,7 +6,7 @@ defined('YII_ROOT') or define('YII_ROOT', __DIR__);
 require YII_ROOT . '/vendor/autoload.php';
 require YII_ROOT . '/vendor/yiisoft/yii2/Yii.php';
 
-// env setting
+// program env setting
 defined('YII_DEBUG') or define('YII_DEBUG', env('YII_DEBUG', true));
 defined('YII_ENV') or define('YII_ENV', env('YII_ENV', 'dev'));
 if (YII_DEBUG) {

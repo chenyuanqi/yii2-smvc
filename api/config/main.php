@@ -14,9 +14,11 @@ $config['sourceLanguage'] = 'zh-CN';
 $config['vendorPath'] = '@vendor';
 $config['runtimePath'] = '@runtime';
 
-$config['modules']['v1'] = [
-    'class' => 'api\modules\v1\module',
-    'defaultRoute' => 'index',
+$config['modules'] = [
+    'v1' => [
+        'class' => 'api\modules\v1\module',
+        'defaultRoute' => 'index',
+    ],
 ];
 
 // 路由设定
@@ -24,7 +26,7 @@ $config['components']['apiUrlManager'] = [
         'class' => 'yii\web\UrlManager',
         'enablePrettyUrl' => true,
         'showScriptName' => false,
-        'suffix' => '.html',
+        'suffix' => '',
         'cache' => 'apiUrlManagerCache',
         'baseUrl' => env('API_URL', ''),
         'enableStrictParsing' => true,
@@ -48,21 +50,13 @@ $config['components']['request'] = [
 ];
 
 // 响应设定
-$contentType = 'text/plain;charset=utf-8';
-if ((isset($_SERVER['HTTP_USER_AGENT'])
-     && (
-         false !== stripos($_SERVER['HTTP_USER_AGENT'], 'Chrome')
-         || false !== stripos($_SERVER['HTTP_USER_AGENT'], 'PostmanRuntime')
-     ))){
-    $contentType = 'application/x-json;charset=utf-8';
-}
 $config['components']['response'] = [
     'class' => 'api\base\Response',
     'format' => yii\web\Response::FORMAT_JSON,
     'formatters' => [
         yii\web\Response::FORMAT_JSON => [
             'class' => yii\web\JsonResponseFormatter::className(),
-            'contentType' => $contentType,
+            'contentType' => 'application/x-json;charset=utf-8',
         ],
     ],
 ];

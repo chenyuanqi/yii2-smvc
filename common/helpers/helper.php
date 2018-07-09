@@ -9,7 +9,6 @@ if (!function_exists('dd')) {
         foreach ($param as $p)  {
             \yii\helpers\VarDumper::dump($p, 10, true);
         }
-        exit(1);
     }
 }
 
@@ -67,6 +66,42 @@ if (!function_exists('includeFile')) {
     function includeFile($file, $skipNotExist = false, $default = null)
     {
         common\helpers\FileHelper::getInclude($file, $skipNotExist, $default);
+    }
+}
+
+if (!function_exists('exportExcel')) {
+    /**
+     * 导出 Excel
+     * 
+     * @param array $data
+     * @param array $title
+     * @param string $fileName
+     */
+    function exportExcel($data = [], $title = [], $fileName = 'export')
+    {
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=" . $fileName . ".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        if (!empty($title)){
+            foreach($title as $k => $v){
+                $title[$k] = iconv("UTF-8", "GB2312", $v);
+            }
+            $title = implode("\t", $title);
+            echo "$title\n";
+        }
+        if (!empty($data)){
+            foreach($data as $key => $val){
+                foreach($val as $ck => $cv){
+                    $data[$key][$ck] = iconv("UTF-8", "GB2312", $cv);
+                }
+                $data[$key] = implode("\t", $data[$key]);
+            }
+            echo implode("\n", $data);
+        }
     }
 }
 

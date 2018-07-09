@@ -12,8 +12,8 @@ class IndexController extends Controller
         return [
             'verbs' => [
                 'actions' => [
-                    'index' => ['get'],
-                ]
+                    'index' => ['GET'],
+                ],
             ]
         ];
     }
@@ -27,7 +27,7 @@ class IndexController extends Controller
             $data = [];
         }
 
-        return $this->formatResult(static::RESPONSE_CODE_HTTP_OK, $data);
+        return $this->formatResult(self::RESPONSE_CODE_HTTP_OK, $data);
     }
 
 }
