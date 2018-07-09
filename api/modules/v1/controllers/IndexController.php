@@ -21,11 +21,7 @@ class IndexController extends Controller
 
     public function actionIndex()
     {
-        try{
-            $data = [];
-        }catch(\Exception $e){
-            $data = [];
-        }
+        $data = [];
 
         return $this->formatResult(self::RESPONSE_CODE_HTTP_OK, $data);
     }
