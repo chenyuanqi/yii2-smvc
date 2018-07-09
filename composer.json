@@ -13,6 +13,11 @@
         "source": "https://github.com/yiisoft/yii2"
     },
     "minimum-stability": "dev",
+    "autoload": {
+        "files": [
+            "common/helpers/helper.php"
+        ]
+    },
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "~2.0.14",

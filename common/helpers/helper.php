@@ -25,6 +25,38 @@ if (!function_exists('sql')) {
     }
 }
 
+if (! function_exists('env')) {
+    /**
+     * 获取配置，支持 boolean, empty and null.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function env($key, $default = null)
+    {
+        $value = getenv($key);
+        if ($value === false) {
+            return $default;
+        }
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
+        }
+        return $value;
+    }
+}
+
 if (!function_exists('includeFile')) {
     /**
      * @param string $file 需要引入的文件

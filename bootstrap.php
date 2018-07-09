@@ -26,9 +26,6 @@ defined('YII_ROOT') or define('YII_ROOT', __DIR__);
 require YII_ROOT . '/vendor/autoload.php';
 require YII_ROOT . '/vendor/yiisoft/yii2/Yii.php';
 
-// require helper
-require YII_ROOT . '/common/helpers/helper.php';
-
 // set common alias
 Yii::setAlias('commands', YII_ROOT . '/commands');
 Yii::setAlias('common', YII_ROOT . '/common');
