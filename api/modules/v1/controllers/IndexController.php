@@ -4,20 +4,20 @@ namespace api\modules\v1\controllers;
 
 use Yii;
 use api\base\Controller;
+use yii\helpers\ArrayHelper;
 
 class IndexController extends Controller
 {
     public function behaviors()
     {
-        return [
+        return ArrayHelper::merge(parent::behaviors(), [
             'verbs' => [
                 'actions' => [
                     'index' => ['GET'],
                 ],
             ]
-        ];
+        ]);
     }
-
 
     public function actionIndex()
     {

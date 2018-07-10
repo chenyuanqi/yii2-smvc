@@ -2,10 +2,11 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2-smvc',
-    'username' => 'root',
-    'password' => 'mysql',
-    'charset' => 'utf8',
+    'dsn' => env('DB_DSN', 'mysql:host=localhost;dbname=yii2-smvc'),
+    'username' => env('DB_USERNAME', 'root'),
+    'password' => env('DB_PASSWORD', 'root'),
+    'charset' => env('DB_CHARSET', 'utf8'),
+    'tablePrefix' => env('DB_TABLE_PREFIX', ''),
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

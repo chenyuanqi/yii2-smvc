@@ -6,7 +6,6 @@ $config = includeFile(YII_ROOT . '/config/web.php');
 
 $config['id'] = 'demo_id';
 $config['name'] = 'demo_name';
-$config['basePath'] = dirname(__DIR__);
 $config['timeZone'] = 'PRC';
 $config['charset'] = 'UTF-8';
 $config['language'] = 'zh-CN';
@@ -14,6 +13,7 @@ $config['sourceLanguage'] = 'zh-CN';
 $config['vendorPath'] = '@vendor';
 $config['runtimePath'] = '@runtime';
 
+$config['basePath'] = dirname(__DIR__);
 $config['modules'] = [
     'v1' => [
         'class' => 'api\modules\v1\module',
@@ -62,12 +62,14 @@ $config['components']['response'] = [
 ];
 
 // 错误处理
+/*
 $config['components']['errorHandler'] = [
     'class' => 'api\base\ErrorHandler',
     'errorAction' => 'error',
     'useErrorAction' => true,
     'memoryReserveSize' => 0,
 ];
+*/
 
 return $config;
 

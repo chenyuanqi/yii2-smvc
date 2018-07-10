@@ -9,6 +9,7 @@ if (!function_exists('dd')) {
         foreach ($param as $p)  {
             \yii\helpers\VarDumper::dump($p, 10, true);
         }
+        exit(1);
     }
 }
 
@@ -24,7 +25,7 @@ if (!function_exists('sql')) {
     }
 }
 
-if (! function_exists('env')) {
+if (!function_exists('env')) {
     /**
      * 获取配置，支持 boolean, empty and null.
      *
