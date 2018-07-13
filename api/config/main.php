@@ -4,8 +4,8 @@ require __DIR__ . '/../../bootstrap.php';
 
 $config = includeFile(YII_ROOT . '/config/web.php');
 
-$config['id'] = 'demo_id';
-$config['name'] = 'demo_name';
+$config['id'] = 'api_id';
+$config['name'] = 'api_name';
 $config['timeZone'] = 'PRC';
 $config['charset'] = 'UTF-8';
 $config['language'] = 'zh-CN';
@@ -62,14 +62,13 @@ $config['components']['response'] = [
 ];
 
 // 错误处理
-/*
 $config['components']['errorHandler'] = [
-    'class' => 'api\base\ErrorHandler',
+    'class' => 'yii\web\ErrorAction',
     'errorAction' => 'error',
     'useErrorAction' => true,
     'memoryReserveSize' => 0,
 ];
-*/
+
 
 return $config;
 
