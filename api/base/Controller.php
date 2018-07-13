@@ -4,6 +4,7 @@ namespace api\base;
 
 use Yii;
 use common\helpers\TimeHelper;
+use yii\filters\VerbFilter;
 
 class Controller extends \yii\web\Controller
 {
@@ -29,7 +30,11 @@ class Controller extends \yii\web\Controller
 
     public function behaviors()
     {
-        return [];
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+            ],
+        ];
     }
 
     /**

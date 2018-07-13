@@ -47,15 +47,16 @@ $config['components']['request'] = [
 // 响应设定
 $config['components']['response'] = [
     'class' => 'yii\web\Response',
-//    'on beforeSend' => function ($event) {
-//        $response = $event->sender;
-//        if ($response->data !== null) {
-//            $response->data = [
-//                'success' => true,
-//                'data' => $response->data,
-//            ];
-//        }
-//    },
+    'format' => api\base\Response::FORMAT_JSON,
+    'on beforeSend' => function ($event) {
+        $response = $event->sender;
+        if ($response->data === null) {
+            $response->data = [
+                'error' => isset($response->data->code) ? $response->data->code : 500,
+                'message' => isset($response->data->message) ? $response->data->message : '服务器异常~',
+            ];
+        }
+    },
 ];
 
 return $config;
