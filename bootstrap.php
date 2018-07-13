@@ -4,7 +4,7 @@
 defined('YII_ROOT') or define('YII_ROOT', __DIR__);
 
 // loading vendor
-require YII_ROOT . '/vendor/autoload.php';
+require YII_ROOT .  DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // reset env setting
 defined('YII_DEBUG') or define('YII_DEBUG', env('YII_DEBUG', true));
@@ -18,14 +18,15 @@ if (YII_DEBUG) {
 }
 
 // loading Yii bootstrap file
-require YII_ROOT . '/vendor/yiisoft/yii2/Yii.php';
+require YII_ROOT . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR. 'yiisoft' . DIRECTORY_SEPARATOR . 'yii2' . DIRECTORY_SEPARATOR . 'Yii.php';
 
 // set common alias
-Yii::setAlias('commands', YII_ROOT . '/commands');
-Yii::setAlias('common', YII_ROOT . '/common');
-Yii::setAlias('migrations', YII_ROOT . '/migrations');
-Yii::setAlias('api', YII_ROOT . '/api');
-Yii::setAlias('route', YII_ROOT . '/route');
-Yii::setAlias('runtime', YII_ROOT . '/runtime');
-Yii::setAlias('vendor', YII_ROOT . '/vendor');
+Yii::setAlias('commands', YII_ROOT . DIRECTORY_SEPARATOR . 'commands');
+Yii::setAlias('common', YII_ROOT . DIRECTORY_SEPARATOR . 'common');
+Yii::setAlias('migrations', YII_ROOT . DIRECTORY_SEPARATOR . 'migrations');
+Yii::setAlias('config', YII_ROOT . DIRECTORY_SEPARATOR . 'config');
+Yii::setAlias('api', YII_ROOT . DIRECTORY_SEPARATOR . 'api');
+Yii::setAlias('route', YII_ROOT . DIRECTORY_SEPARATOR . 'route');
+Yii::setAlias('runtime', YII_ROOT . DIRECTORY_SEPARATOR . 'runtime');
+Yii::setAlias('vendor', YII_ROOT . DIRECTORY_SEPARATOR . 'vendor');
 

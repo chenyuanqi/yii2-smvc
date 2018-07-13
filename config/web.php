@@ -1,7 +1,7 @@
 <?php
 
-$params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$params = require __DIR__ . DIRECTORY_SEPARATOR . 'params.php';
+$db = require __DIR__ . DIRECTORY_SEPARATOR . 'db.php';
 
 $config = [
     'id' => 'basic',
@@ -47,7 +47,7 @@ $config = [
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
+if (!YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [

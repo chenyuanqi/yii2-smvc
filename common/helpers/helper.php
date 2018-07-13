@@ -66,43 +66,63 @@ if (!function_exists('includeFile')) {
      */
     function includeFile($file, $skipNotExist = false, $default = null)
     {
-        common\helpers\FileHelper::getInclude($file, $skipNotExist, $default);
+        return common\helpers\FileHelper::getInclude($file, $skipNotExist, $default);
     }
 }
 
 if (!function_exists('exportExcel')) {
     /**
      * 导出 Excel
-     * 
-     * @param array $data
+     *
+     * @param array $exportData
      * @param array $title
-     * @param string $fileName
+     * @param string $sheetName
+     * @return string
      */
-    function exportExcel($data = [], $title = [], $fileName = 'export')
+    function exportExcel($exportData = [], $title = [], $sheetName = 'export')
     {
-        header("Content-type:application/octet-stream");
-        header("Accept-Ranges:bytes");
-        header("Content-type:application/vnd.ms-excel");
-        header("Content-Disposition:attachment;filename=" . $fileName . ".xls");
-        header("Pragma: no-cache");
-        header("Expires: 0");
+        set_time_limit(120);
+        ini_set('memory_limit', '512M');
+
+        $objPHPExcel = new \PHPExcel();
+        $sheet = $objPHPExcel->setActiveSheetIndex(0);
+
+        $head = [];
+        for($i = 'A'; $i != 'GZ'; $i++){
+            $head[] = $i;
+        }
 
         if (!empty($title)){
-            foreach($title as $k => $v){
-                $title[$k] = iconv("UTF-8", "GB2312", $v);
+            // 设置行头
+            foreach($title as $key => $value){
+                $sheet->setCellValueExplicit($head[$key] . '1', $value);
             }
-            $title = implode("\t", $title);
-            echo "$title\n";
+
+            $item = 2;
+        }else{
+            $item = 1;
         }
-        if (!empty($data)){
-            foreach($data as $key => $val){
-                foreach($val as $ck => $cv){
-                    $data[$key][$ck] = iconv("UTF-8", "GB2312", $cv);
+
+        foreach($exportData as $key => $value){
+            $data = array_values($value);
+            foreach($data as $k => $v){
+                if (!empty($title) && $k >= count($title)){
+                    continue;
                 }
-                $data[$key] = implode("\t", $data[$key]);
+                $sheet->setCellValueExplicit($head[$k] . $item, $v);
             }
-            echo implode("\n", $data);
+            $item++;
         }
+
+        $sheet->setTitle($sheetName);
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+        ob_start();
+        $objWriter->save('php://output');
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        return $content;
     }
 }
 

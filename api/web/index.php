@@ -2,5 +2,9 @@
 
 $config = require __DIR__ . '/../config/main.php';
 
-(new yii\web\Application($config))->run();
+try {
+    (new yii\web\Application($config))->run();
+} catch(yii\base\InvalidConfigException $e) {
+    dd($e);
+}
 

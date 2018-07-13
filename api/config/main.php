@@ -1,8 +1,8 @@
 <?php
 
-require __DIR__ . '/../../bootstrap.php';
+require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$config = includeFile(YII_ROOT . '/config/web.php');
+$config = includeFile(Yii::getAlias('@config') . DIRECTORY_SEPARATOR . 'web.php');
 
 $config['id'] = 'api_id';
 $config['name'] = 'api_name';
@@ -16,26 +16,21 @@ $config['runtimePath'] = '@runtime';
 $config['basePath'] = dirname(__DIR__);
 $config['modules'] = [
     'v1' => [
-        'class' => 'api\modules\v1\module',
-        'defaultRoute' => 'index',
+        'class' => 'api\modules\v1\module'
     ],
 ];
 
 // 路由设定
-$config['components']['apiUrlManager'] = [
-        'class' => 'yii\web\UrlManager',
-        'enablePrettyUrl' => true,
-        'showScriptName' => false,
-        'suffix' => '',
-        'cache' => 'apiUrlManagerCache',
-        'baseUrl' => env('API_URL', ''),
-        'enableStrictParsing' => true,
-        'rules' => require(Yii::getAlias('@route/api.php')),
-    ];
-
-$config['components']['urlManager'] = function (){
-    return Yii::$app->get('apiUrlManager');
-};
+$config['components']['urlManager'] = [
+    'class' => 'yii\web\UrlManager',
+    'enablePrettyUrl' => true,
+    'showScriptName' => false,
+    'suffix' => '',
+    'cache' => 'apiUrlManagerCache',
+    'baseUrl' => env('API_URL', ''),
+    'enableStrictParsing' => false,
+    'rules' => includeFile(YII_ROOT . DIRECTORY_SEPARATOR . 'route' . DIRECTORY_SEPARATOR . 'api.php'),
+];
 
 // 请求设定
 $config['components']['request'] = [
@@ -51,24 +46,17 @@ $config['components']['request'] = [
 
 // 响应设定
 $config['components']['response'] = [
-    'class' => 'api\base\Response',
-    'format' => yii\web\Response::FORMAT_JSON,
-    'formatters' => [
-        yii\web\Response::FORMAT_JSON => [
-            'class' => yii\web\JsonResponseFormatter::className(),
-            'contentType' => 'application/x-json;charset=utf-8',
-        ],
-    ],
+    'class' => 'yii\web\Response',
+//    'on beforeSend' => function ($event) {
+//        $response = $event->sender;
+//        if ($response->data !== null) {
+//            $response->data = [
+//                'success' => true,
+//                'data' => $response->data,
+//            ];
+//        }
+//    },
 ];
-
-// 错误处理
-$config['components']['errorHandler'] = [
-    'class' => 'yii\web\ErrorAction',
-    'errorAction' => 'error',
-    'useErrorAction' => true,
-    'memoryReserveSize' => 0,
-];
-
 
 return $config;
 

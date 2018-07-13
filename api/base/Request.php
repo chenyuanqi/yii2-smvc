@@ -35,7 +35,7 @@ class Request extends \yii\web\Request
                      'HTTP_FORWARDED',
                      'REMOTE_ADDR'
                  ] as $name) {
-            if (isset($_SERVER[$name]) && Check::isIp($_SERVER[$name])) {
+            if (isset($_SERVER[$name]) && CheckHelper::isIp($_SERVER[$name])) {
                 return $_SERVER[$name];
             }
         }
@@ -53,7 +53,7 @@ class Request extends \yii\web\Request
         $cookie = $this->cookies['network'];
         $network = null === $cookie ? 0 : $cookie->value;
 
-        return Check::isDigit($network) ? $network : 0;
+        return CheckHelper::isDigit($network) ? $network : 0;
     }
 
     /**

@@ -23,7 +23,7 @@ class Controller extends \yii\web\Controller
         self::RESPONSE_CODE_HTTP_BAD_REQUEST => ['title' => '请求参数错误'],
         self::RESPONSE_CODE_HTTP_SERVICE_UNAVAILABLE => ['title' => '服务器繁忙'],
         self::RESPONSE_CODE_HTTP_FORBIDDEN => ['title' => '没有权限访问'],
-        self::RESPONSE_CODE_HTTP_UNAUTHORIZED => ['title' => '请先登录采贝再重试哦'],
+        self::RESPONSE_CODE_HTTP_UNAUTHORIZED => ['title' => '请先登录再重试哦'],
         self::RESPONSE_CODE_HTTP_OK => ['title' => '请求成功'],
     ];
 
@@ -39,6 +39,11 @@ class Controller extends \yii\web\Controller
     public function beforeAction($action)
     {
         return true;
+    }
+
+    public function afterAction($action, $result)
+    {
+        return parent::afterAction($action, $result);
     }
 
     /**
