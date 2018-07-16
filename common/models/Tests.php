@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
-use yii\base\Model;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%tests}}".
@@ -17,7 +17,7 @@ use yii\base\Model;
  * @property int $created_at
  * @property int $updated_at
  */
-class Tests extends Model
+class Tests extends ActiveRecord
 {
     /**
      * @inheritdoc

@@ -3,9 +3,10 @@
 namespace commands\controllers;
 
 use common\models\Tests;
+use common\base\Command;
 use yii\console\ExitCode;
 
-class TempController extends CommonController
+class TempController extends Command
 {
 	/**
      * sync test data.
