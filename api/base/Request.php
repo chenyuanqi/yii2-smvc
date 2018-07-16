@@ -193,16 +193,13 @@ class Request extends \yii\web\Request
 
         $userAgentArray = [];
         $userAgent = $this->getUserAgent();
-        //$userAgent = 'CaiBeiTV/1.0.0(iOS:9.2.1;Apple:iPhone7,2;scale:2.0;pix:667*375)';
-        //$userAgent = strtolower($userAgent);
 
         if (empty($userAgent) || 2 !== count(($userAgent = explode('(', $userAgent, 2)))){
             return $userAgentArray = [];
         }
 
         $userAgentArray['appVersion'] = explode('/', $userAgent[0]);
-        if (2 == count($userAgentArray['appVersion'])
-            && strtolower('caibeitv') == strtolower(substr($userAgentArray['appVersion'][0], 0, strlen('caibeitv')))){
+        if (2 == count($userAgentArray['appVersion'])){
             $userAgentArray['appVersion'] = $userAgentArray['appVersion'][1];
         }else{
             $userAgentArray['appVersion'] = null;

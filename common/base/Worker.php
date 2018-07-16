@@ -3,6 +3,8 @@
 namespace common\base;
 
 use Yii;
+use yii\base\BaseObject;
+use common\helpers\TimeHelper;
 
 class Worker extends BaseObject implements \yii\queue\JobInterface
 {
