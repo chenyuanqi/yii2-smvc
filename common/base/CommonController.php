@@ -1,11 +1,11 @@
 <?php
 
-namespace commands\controllers;
+namespace common\base;
 
 use yii\console\Controller;
 use common\helpers\TimeHelper;
 
-class CommonController extends Controller
+class Command extends Controller
 {
     public function stdout($message)
     {
