@@ -2,7 +2,7 @@
 
 namespace common\components;
 
-class Express
+final class Express
 {
     public $customer = 'xxx';
 
