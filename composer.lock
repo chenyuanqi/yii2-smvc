@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d919889a4b2e0e23e29ba944f8d81cd9",
+    "content-hash": "67ce76f3bb2c05d51bc9fab54bd04ca9",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -662,6 +662,63 @@
                 "yii"
             ],
             "time": "2018-07-12T11:26:08+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-redis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-redis.git",
+                "reference": "bcbb8c7127ac862d8f6ba32c840733388daa2878"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/bcbb8c7127ac862d8f6ba32c840733388daa2878",
+                "reference": "bcbb8c7127ac862d8f6ba32c840733388daa2878",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.14"
+            },
+            "require-dev": {
+                "yiisoft/yii2-dev": "~2.0.14"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\redis\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc"
+                }
+            ],
+            "description": "Redis Cache, Session and ActiveRecord for the Yii framework",
+            "keywords": [
+                "active-record",
+                "cache",
+                "redis",
+                "session",
+                "yii2"
+            ],
+            "time": "2018-05-04T06:56:14+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -3836,7 +3893,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "yiisoft/yii2-queue": 20
+        "yiisoft/yii2-queue": 20,
+        "yiisoft/yii2-redis": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

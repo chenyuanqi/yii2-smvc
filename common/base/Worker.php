@@ -16,8 +16,22 @@ class Worker extends BaseObject implements \yii\queue\JobInterface
         return return Yii::$app->get('queue');
     }
 
-    public static function stdout($str)
+    /**
+     * push message to the queue.
+     *
+     * @param array $message
+     * @param int $delaySeconds
+     */
+    public static function push(array $message, $delaySeconds = 0)
     {
-        echo TimeHelper::date('Y-m-d H:i:s u'), '   ', $str, PHP_EOL;
+        return static::getQueue()->delay($delaySeconds)->push(new static($message));
+    }
+
+    /**
+     * standard output.
+     */
+    public static function stdout($message)
+    {
+        echo TimeHelper::date('Y-m-d H:i:s u'), '   ', $message, PHP_EOL;
     }
 }

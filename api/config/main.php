@@ -1,7 +1,5 @@
 <?php
 
-require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
-
 $config = includeFile(Yii::getAlias('@config') . DIRECTORY_SEPARATOR . 'web.php');
 
 $config['id'] = 'api_id';
@@ -14,11 +12,7 @@ $config['vendorPath'] = '@vendor';
 $config['runtimePath'] = '@runtime';
 
 $config['basePath'] = dirname(__DIR__);
-$config['modules'] = [
-    'v1' => [
-        'class' => 'api\modules\v1\module'
-    ],
-];
+$config['modules']['v1'] = ['class' => 'api\modules\v1\module'];
 
 // 路由设定
 $config['components']['urlManager'] = [
@@ -29,7 +23,7 @@ $config['components']['urlManager'] = [
     'cache' => 'apiUrlManagerCache',
     'baseUrl' => env('API_URL', ''),
     'enableStrictParsing' => false,
-    'rules' => includeFile(YII_ROOT . DIRECTORY_SEPARATOR . 'route' . DIRECTORY_SEPARATOR . 'api.php'),
+    'rules' => includeFile(Yii::getAlias('@route') . DIRECTORY_SEPARATOR . 'api.php'),
 ];
 
 // 请求设定

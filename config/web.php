@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . DIRECTORY_SEPARATOR . 'params.php';
 $db = require __DIR__ . DIRECTORY_SEPARATOR . 'db.php';
+$redis = require __DIR__ . DIRECTORY_SEPARATOR . 'redis.php';
 
 $config = [
     'id' => 'basic',
@@ -28,10 +29,25 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/views/mail',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            //
+            // go into effect when env is prod
+            'useFileTransport' => !in_array(YII_ENV, ['prod']),
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'username' => env('MAIL_USERNAME', ''),
+                'password' => env('MAIL_PASSWORD', ''),
+                'host' => env('MAIL_HOST', ''),
+                'port' => env('MAIL_PORT', ''),
+                'encryption' => env('MAIL_PORT', 'ssl'),
+            ],
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => [env('MAIL_ADMIN', '') => '邮件预警']
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -43,11 +59,12 @@ $config = [
             ],
         ],
         'db' => $db,
+        'redis' => $redis,
     ],
     'params' => $params,
 ];
 
-if (!YII_ENV_DEV) {
+if (YII_ENV_DEV || 'cli' !== php_sapi_name()) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
