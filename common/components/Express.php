@@ -17,6 +17,9 @@ class Express
 
     private static $instance;
 
+    private function __construct() 
+    {}
+
     public static function getInstance()
     {
         if (!static::$instance instanceof static) {
@@ -25,6 +28,9 @@ class Express
 
         return static::$instance;
     }
+
+    private function __clone()
+    {}
 
     public function query($type, $code)
     {
