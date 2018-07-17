@@ -34,7 +34,7 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             //
-            // go into effect when env is prod
+            // go into effect when env is product.
             'useFileTransport' => !in_array(YII_ENV, ['prod']),
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
@@ -77,7 +77,7 @@ if (YII_ENV_DEV || 'cli' !== php_sapi_name()) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 
