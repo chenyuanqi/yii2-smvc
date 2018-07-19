@@ -1,21 +1,21 @@
 <?php
 
-if (!function_exists('dd')) {
+if (!function_exists('dd')){
     /**
      * @param mixed ...$param
      */
     function dd(...$param)
     {
-        foreach ($param as $p)  {
+        foreach($param as $p){
             \yii\helpers\VarDumper::dump($p, 10, true);
         }
         exit(1);
     }
 }
 
-if (!function_exists('sql')) {
+if (!function_exists('sql')){
     /**
-     * @param yii\db\ActiveQuery  $query
+     * @param yii\db\ActiveQuery $query
      */
     function sql(yii\db\ActiveQuery $query)
     {
@@ -25,21 +25,21 @@ if (!function_exists('sql')) {
     }
 }
 
-if (!function_exists('env')) {
+if (!function_exists('env')){
     /**
      * 获取配置，支持 boolean, empty and null.
      *
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  string $key
+     * @param  mixed $default
      * @return mixed
      */
     function env($key, $default = null)
     {
         $value = getenv($key);
-        if ($value === false) {
+        if ($value === false){
             return $default;
         }
-        switch (strtolower($value)) {
+        switch(strtolower($value)){
             case 'true':
             case '(true)':
                 return true;
@@ -53,11 +53,12 @@ if (!function_exists('env')) {
             case '(null)':
                 return;
         }
+
         return $value;
     }
 }
 
-if (!function_exists('includeFile')) {
+if (!function_exists('includeFile')){
     /**
      * @param string $file 需要引入的文件
      * @param bool $skipNotExist 是否跳过不存在的文件
@@ -70,7 +71,7 @@ if (!function_exists('includeFile')) {
     }
 }
 
-if (!function_exists('exportExcel')) {
+if (!function_exists('exportExcel')){
     /**
      * 导出 Excel
      *
@@ -88,7 +89,7 @@ if (!function_exists('exportExcel')) {
         $sheet = $objPHPExcel->setActiveSheetIndex(0);
 
         $head = [];
-        for($i = 'A'; $i != 'GZ'; $i++){
+        for($i = 'A'; $i != 'GZ'; ++$i){
             $head[] = $i;
         }
 
@@ -126,7 +127,7 @@ if (!function_exists('exportExcel')) {
     }
 }
 
-if (!function_exists('yiiUrl')) {
+if (!function_exists('yiiUrl')){
     /**
      * 创建url.
      *
@@ -140,7 +141,7 @@ if (!function_exists('yiiUrl')) {
     }
 }
 
-if (!function_exists('yiiParams')) {
+if (!function_exists('yiiParams')){
     /**
      * 获取yii配置参数.
      *
@@ -154,7 +155,7 @@ if (!function_exists('yiiParams')) {
     }
 }
 
-if (!function_exists('getVal')) {
+if (!function_exists('getVal')){
     /**
      * 从对象，数组中获取获取数据.
      *
@@ -170,7 +171,7 @@ if (!function_exists('getVal')) {
     }
 }
 
-if (!function_exists('app')) {
+if (!function_exists('app')){
     /**
      * @param null $instance
      * @return null|object|\yii\di\Container
@@ -179,11 +180,11 @@ if (!function_exists('app')) {
      */
     function app($instance = null)
     {
-        if (is_null($instance)) {
+        if (is_null($instance)){
             return Yii::$container;
         }
 
-        if (Yii::$app->has($instance)) {
+        if (Yii::$app->has($instance)){
             return Yii::$app->get($instance);
         }
 

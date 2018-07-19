@@ -53,5 +53,14 @@ $config['components']['response'] = [
     },
 ];
 
+// 用户设定
+$config['components']['user'] = [
+    'class' => 'yii\web\User',
+    'identityClass' => 'common\models\Users',
+    'enableAutoLogin' => true,
+    'enableSession' => false,
+    'loginUrl' => null,
+];
+
 return $config;
 

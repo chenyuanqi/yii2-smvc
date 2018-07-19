@@ -35,6 +35,6 @@ class m180716_065407_create_tests_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('test');
+        $this->dropTable($this->table);
     }
 }

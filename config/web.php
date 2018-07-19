@@ -20,12 +20,21 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\common\models\User',
-            'enableAutoLogin' => true,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        // 权限管理
+        // authManager 有 PhpManager 和 DbManager 两种方式,    
+        // PhpManager 将权限关系保存在文件里,这里使用的是 DbManager 方式,将权限关系保存在数据库.  
+        // 
+        // 数据迁移命令
+        //     ./yii migrate --migrationPath=@yii/rbac/migrations/
+        // 数据表的命名
+        //     auth_item：用于存储角色、权限和路由
+        //     auth_item_child：角色-权限的关联表
+        //     auth_assignment：用户-角色的关联表  
+        "authManager" => [        
+            "class" => 'yii\rbac\DbManager',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
