@@ -48,3 +48,11 @@ vim .env
 ./yii migrate/create create_tests_table -p=common/migrations
 ./yii migrate/up -p=common/migrations/
 ```
+
+- supervisorctl manage queue
+```bash
+sudo supervisorctl -c /etc/supervisord.conf status
+sudo supervisorctl -c /etc/supervisord.conf stop cube-queue
+sudo supervisorctl -c /etc/supervisord.conf start cube-queue
+./yii queue cube_queue 1 15000
+```
