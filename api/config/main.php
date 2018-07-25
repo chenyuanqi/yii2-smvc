@@ -12,7 +12,7 @@ $config['vendorPath'] = '@vendor';
 $config['runtimePath'] = '@runtime';
 
 $config['basePath'] = dirname(__DIR__);
-$config['modules']['v1'] = ['class' => 'api\modules\v1\module'];
+$config['modules']['v1'] = ['class' => 'api\modules\v1\module', 'defaultRoute' => 'index'];
 
 // 路由设定
 $config['components']['urlManager'] = [
