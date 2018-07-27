@@ -89,6 +89,14 @@ class Users extends ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        return parent::fields();
+    }
+
+    /**
      * @return array
      */
     public function behaviors()

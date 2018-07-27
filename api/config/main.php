@@ -36,6 +36,9 @@ $config['components']['request'] = [
     'enableCookieValidation' => false,
     'cookieValidationKey' => '9c63130dcfe59b2eb3a8c',
     'methodParam' => '_method',
+    'parsers' => [
+        'application/json' => 'yii\web\JsonParser',
+    ],
 ];
 
 // 响应设定
