@@ -7,6 +7,22 @@ use yii;
 class FileHelper extends \yii\helpers\FileHelper
 {
     /**
+     * 检测目录并循环创建目录
+     *
+     * @param $path
+     */
+    public static function mkdirs($path)
+    {
+        if (!file_exists($path)){
+            self::mkdirs(dirname($path));
+            mkdir($path, 0777);
+        }
+        
+        return true;
+    }
+
+
+    /**
      * 函数directorySize,用于获取一个目录的大小,单位@字节;
      *
      * @param directory array   [必须]    需要统计的目录;
@@ -99,4 +115,3 @@ class FileHelper extends \yii\helpers\FileHelper
         return (include $file);
     }
 }
-

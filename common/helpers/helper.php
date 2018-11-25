@@ -25,6 +25,29 @@ if (!function_exists('sql')){
     }
 }
 
+if (!function_exists('debug')){
+   /**
+     * 调用这个方法之前干了什么
+     *
+     * @param bool $reverse
+     * @return array
+     */
+    function debug($reverse = false)
+    {
+        $debug = debug_backtrace();
+        $data = [];
+        foreach($debug as $e)
+        {
+            $function = isset($e['function']) ? $e['function'] : 'null function';
+            $class = isset($e['class']) ? $e['class'] : 'null class';
+            $file = isset($e['file']) ? $e['file'] : 'null file';
+            $line = isset($e['line']) ? $e['line'] : 'null';
+            $data[] = $file . '(' . $line . '),' . $class . '::' . $function . '()';
+        }
+        return $reverse == true ? array_reverse($data) : $data;
+    }
+}
+
 if (!function_exists('env')){
     /**
      * 获取配置，支持 boolean, empty and null.
@@ -191,4 +214,3 @@ if (!function_exists('app')){
         return Yii::$container->get($instance);
     }
 }
-
