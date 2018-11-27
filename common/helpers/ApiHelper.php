@@ -13,7 +13,8 @@ final class ApiHelper
      * @param int $code 状态码
      * @param string $message 返回的报错信息
      * @param array|object $data 返回的数据结构
-      */
+     * @return array
+     */
     public static function json($code = 404, $message = '未知错误', $data = [])
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -32,7 +33,8 @@ final class ApiHelper
      * @param int $code 状态码 注意：要符合 http 状态码
      * @param string $message 返回的报错信息
      * @param array|object $data 返回的数据结构
-      */
+     * @return array
+     */
     public static function api($code = 404, $message = '未知错误', $data = [])
     {
         Yii::$app->response->setStatusCode($code, $message);

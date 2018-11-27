@@ -4,7 +4,7 @@ namespace common\helpers;
 
 final class UploadHelper
 {
-   /**
+    /**
      * 当前文件信息
      *
      * @var

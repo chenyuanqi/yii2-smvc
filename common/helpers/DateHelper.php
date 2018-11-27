@@ -9,14 +9,14 @@ final class DateHelper
      *
      * 语法：mktime(hour,minute,second,month,day,year) => (小时, 分钟, 秒, 月份, 天, 年)
      */
-   public static function today()
-   {
-       return [
-           'start' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
-           'end' => mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1,
-       ];
-   }
-   
+    public static function today()
+    {
+        return [
+            'start' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+            'end' => mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1,
+        ];
+    }
+
     /**
      * 昨日
      *
@@ -51,8 +51,8 @@ final class DateHelper
     public static function lastWeek()
     {
         return [
-            'start' => mktime(0, 0, 0,date('m'),date('d') - date('w') + 1 - 7, date('Y')),
-            'end' => mktime(23, 59, 59,date('m'),date('d') - date('w') + 7 - 7, date('Y')),
+            'start' => mktime(0, 0, 0, date('m'), date('d') - date('w') + 1 - 7, date('Y')),
+            'end' => mktime(23, 59, 59, date('m'), date('d') - date('w') + 7 - 7, date('Y')),
         ];
     }
 
@@ -78,10 +78,10 @@ final class DateHelper
     {
         $start = mktime(0, 0, 0, date('m') - 1, 1, date('Y'));
         $end = mktime(23, 59, 59, date('m') - 1, date('t'), date('Y'));
-        if (date('m', $start) != date('m', $end))
-        {
+        if (date('m', $start) != date('m', $end)){
             $end -= 60 * 60 * 24;
         }
+
         return [
             'start' => $start,
             'end' => $end,
@@ -115,6 +115,7 @@ final class DateHelper
         $days = floor($hours / 24);
         $hours = floor($hours - ($days * 24));
         $min = floor($min - ($days * 60 * 24) - ($hours * 60));
+
         return $days . " 天 " . $hours . " 小时 " . $min . " 分钟 ";
     }
 
@@ -127,6 +128,7 @@ final class DateHelper
     public static function getMicrotime($accuracy = 1000000)
     {
         $microtime = explode(' ', microtime());
+
         return $microtime = (int)round(($microtime[1] + $microtime[0]) * $accuracy, 0);
     }
 }

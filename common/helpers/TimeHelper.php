@@ -19,9 +19,9 @@ final class TimeHelper
 
     /**
      * 格式化时间格式为 'Y-d-m H:i:s u'
-     * 
+     *
      * @param string $format
-     * @param float  $time
+     * @param float $time
      * @return string
      */
     public static function date($format, $time = null)

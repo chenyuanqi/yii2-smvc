@@ -43,11 +43,43 @@ class Controller extends \yii\web\Controller
      */
     public function beforeAction($action)
     {
+        if (false === parent::beforeAction($action)) {
+            return false;
+        }
+
+        // 非登录用户，需要跳转到登录页面
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->getResponse()->redirect(Yii::$app->user->loginUrl);
+        }
+
         return true;
     }
 
     public function afterAction($action, $result)
     {
+        $ignore = false !== strpos(static::className(), 'ErrorController');
+        if (YII_DEBUG && !$ignore){
+            try{
+                $url = Yii::$app->request->getUrl();
+                $post = Json::encode(Yii::$app->request->getBodyParams(), JSON_UNESCAPED_UNICODE);
+                $user = Yii::$app->user->isGuest ? 0 : Yii::$app->user->id;
+
+                $string = '';
+                $string .= "user : {$user}" . '------------';
+                $string .= "url : {$url}" . '------------';
+                $string .= "post : {$post}" . '------------';
+                $string .= PHP_EOL;
+
+                $path = Yii::getAlias('@runtime/request_logs');
+                FileHelper::createDirectory($path);
+
+                $file = $path . '/' . date('Ymd') . '.log';
+                FileHelper::putContents($file, $string, true, true);
+            }catch(\Exception $exception){
+                throw $exception;
+            }
+        }
+        
         return parent::afterAction($action, $result);
     }
 

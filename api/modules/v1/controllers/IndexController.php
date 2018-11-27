@@ -36,5 +36,55 @@ class IndexController extends Controller
         return $this->formatResult(self::RESPONSE_CODE_HTTP_OK, $data);
     }
 
+    
+    /**
+     * 登录
+     *
+     * @return array|string|\yii\web\Response
+     */
+    public function actionLogin()
+    {
+        if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        if(Yii::$app->request->isPost) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $timestamp = round(microtime(true), 3);
+            $result = [
+                'code' => \store\base\Controller::RESPONSE_CODE_HTTP_BAD_REQUEST,
+                'date' => TimeHelper::date('Y-m-d H:i:s u', $timestamp),
+                'timestamp' => round(microtime(true), 3),
+                'message' => '账号或密码错误',
+                'data' => []
+            ];
+
+            $loginForm = new LoginForm();
+            if ($loginForm->load(Yii::$app->request->post(), '') && $loginForm->login()) {
+                $result['code'] = \store\base\Controller::RESPONSE_CODE_HTTP_OK;
+                $result['message'] = '请求成功';
+
+                return $result;
+            }
+
+            return $result;
+        }
+
+        return $this->render('login');
+    }
+
+    /**
+     * 登出
+     *
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        Yii::$app->user->loginRequired();
+        Yii::$app->getSession()->destroy();
+        Yii::$app->response->cookies->removeAll();
+    }
+
 }
 

@@ -17,7 +17,7 @@ class FileHelper extends \yii\helpers\FileHelper
             self::mkdirs(dirname($path));
             mkdir($path, 0777);
         }
-        
+
         return true;
     }
 

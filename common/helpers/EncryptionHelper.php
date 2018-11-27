@@ -30,6 +30,7 @@ final class EncryptionHelper
         openssl_free_key($res);
         /* 对签名进行 Base64 编码，变为可读的字符串 */
         $sign = base64_encode($sign);
+
         return $sign;
     }
 
@@ -50,6 +51,7 @@ final class EncryptionHelper
         openssl_public_decrypt(base64_decode($data), $decrypted, $res);
         /* 释放资源 */
         openssl_free_key($res);
+
         return $decrypted;
     }
 
@@ -69,10 +71,8 @@ final class EncryptionHelper
     {
         $paraStr = "";
         ksort($paramArr);
-        foreach ($paramArr as $key => $val)
-        {
-            if ($key != '' && $val != '')
-            {
+        foreach($paramArr as $key => $val){
+            if ($key != '' && $val != ''){
                 $paraStr .= $key . '=' . urlencode($val) . '&';
             }
         }
@@ -82,7 +82,8 @@ final class EncryptionHelper
         $sign = strtolower(md5($signStr));
         $paraStr .= '&';
         $paraStr .= $signName . '=' . $sign;// 将 md5 后的值作为参数, 便于服务器的效验
-         return $paraStr;
+
+        return $paraStr;
     }
 
     /**
@@ -96,38 +97,33 @@ final class EncryptionHelper
     public static function decodeUrlParam(array $paramArr = [], $secret, $signName = 'sign')
     {
         // 验证必填参数 time/nonceStr/appId/signature
-        if (!isset($paramArr['time']))
-        {
+        if (!isset($paramArr['time'])){
             throw new UnprocessableEntityHttpException('缺少参数 time');
         }
-        if (!isset($paramArr['sign']))
-        {
+        if (!isset($paramArr['sign'])){
             throw new UnprocessableEntityHttpException('缺少参数 sign');
         }
-        if (!isset($paramArr['appId']))
-        {
+        if (!isset($paramArr['appId'])){
             throw new UnprocessableEntityHttpException('缺少参数 appId');
         }
-        if (time() - 60 > $paramArr['time'])
-        {
+        if (time() - 60 > $paramArr['time']){
             throw new UnprocessableEntityHttpException('时间已过期');
         }
         $sign = $paramArr[$signName];
         unset($paramArr[$signName]);
         ksort($paramArr);
         $signStr = '';
-        foreach ($paramArr as $key => $val)
-        {
+        foreach($paramArr as $key => $val){
             $signStr .= $key . '=' . urlencode($val) . '&';
         }
         // 去掉最后一个 &
         $signStr = substr($signStr, 0, strlen($signStr) - 1);
         // 排好序的参数加上 secret, 进行 md5
         $signStr .= $secret;
-        if (strtolower(md5($signStr)) !== $sign)
-        {
+        if (strtolower(md5($signStr)) !== $sign){
             throw new UnprocessableEntityHttpException('签名错误');
         }
+
         return true;
     }
 }

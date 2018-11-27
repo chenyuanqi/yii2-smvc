@@ -25,34 +25,29 @@ final class ExcelHelper
      */
     public static function exportData($list = [], $header = [], $filename = '', $suffix = 'xlsx')
     {
-        if (!is_array ($list) || !is_array ($header))
-        {
+        if (!is_array($list) || !is_array($header)){
             return false;
         }
         !$filename && $filename = time();
         // 初始化
-         $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         // 写入头部
-         $hk = 1;
-        foreach ($header as $k => $v)
-        {
+        $hk = 1;
+        foreach($header as $k => $v){
             $sheet->setCellValue(Coordinate::stringFromColumnIndex($hk) . '1', $v[0]);
             $hk += 1;
         }
         // 开始写入内容
-         $column = 2;
+        $column = 2;
         $size = ceil(count($list) / 500);
-        for($i = 0; $i < $size; $i++)
-        {
+        for($i = 0; $i < $size; $i++){
             $buffer = array_slice($list, $i * 500, 500);
-            foreach($buffer as $row)
-            {
+            foreach($buffer as $row){
                 $span = 1;
-                foreach($header as $key => $value)
-                {
+                foreach($header as $key => $value){
                     // 解析字段
-                     $realData = self::formatting($header[$key], trim(self::formattingField($row, $value[1])), $row);
+                    $realData = self::formatting($header[$key], trim(self::formattingField($row, $value[1])), $row);
                     // 写入 excel
                     $sheet->setCellValue(Coordinate::stringFromColumnIndex($span) . $column, $realData);
                     $span++;
@@ -61,8 +56,7 @@ final class ExcelHelper
             }
         }
         // 直接输出下载
-         switch ($suffix)
-        {
+        switch($suffix){
             case 'xlsx' :
                 $writer = new Xlsx($spreadsheet);
                 header('Pragma:public');
@@ -94,6 +88,7 @@ final class ExcelHelper
                 exit();
                 break;
         }
+
         return true;
     }
 
@@ -107,31 +102,25 @@ final class ExcelHelper
      */
     public static function exportCsvData($list = [], $header = [], $filename = '')
     {
-        if (!is_array ($list) || !is_array ($header))
-        {
+        if (!is_array($list) || !is_array($header)){
             return false;
         }
         !$filename && $filename = time();
         $html = "\xEF\xBB\xBF";
-        foreach($header as $k => $v)
-        {
+        foreach($header as $k => $v){
             $html .= $v[0] . "\t ,";
         }
         $html .= "\n";
-        if(!empty($list))
-        {
+        if (!empty($list)){
             $info = [];
             $size = ceil(count($list) / 500);
-            for($i = 0; $i < $size; $i++)
-            {
+            for($i = 0; $i < $size; $i++){
                 $buffer = array_slice($list, $i * 500, 500);
-                foreach($buffer as $row)
-                {
+                foreach($buffer as $row){
                     $data = [];
-                    foreach($header as $key => $value)
-                    {
+                    foreach($header as $key => $value){
                         // 解析字段
-                         $realData = self::formatting($header[$key], trim(self::formattingField($row, $value[1])), $row);
+                        $realData = self::formatting($header[$key], trim(self::formattingField($row, $value[1])), $row);
                         $data[] = str_replace(PHP_EOL, '', $realData);
                     }
                     $info[] = implode("\t ,", $data) . "\t ,";
@@ -160,59 +149,51 @@ final class ExcelHelper
     {
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $reader->setReadDataOnly(true);
-        if (!$reader->canRead($filePath))
-        {
+        if (!$reader->canRead($filePath)){
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
             // setReadDataOnly Set read data only 只读单元格的数据，不格式化 e.g. 读时间会变成一个数据等
-             $reader->setReadDataOnly(true);
-            if (!$reader->canRead($filePath))
-            {
+            $reader->setReadDataOnly(true);
+            if (!$reader->canRead($filePath)){
                 throw new NotFoundHttpException('不能读取 Excel');
             }
         }
         $spreadsheet = $reader->load($filePath);
         $sheetCount = $spreadsheet->getSheetCount();// 获取 sheet 的数量
-         // 获取所有的 sheet 表格数据
-         $excleDatas = [];
+        // 获取所有的 sheet 表格数据
+        $excleDatas = [];
         $emptyRowNum = 0;
-        for ($i = 0; $i < $sheetCount; $i++)
-        {
+        for($i = 0; $i < $sheetCount; $i++){
             $currentSheet = $spreadsheet->getSheet($i); // 读取 excel 文件中的第一个工作表
-             $allColumn = $currentSheet->getHighestColumn(); // 取得最大的列号
-             $allColumn = Coordinate::columnIndexFromString($allColumn); // 由列名转为列数 ('AB'->28)
+            $allColumn = $currentSheet->getHighestColumn(); // 取得最大的列号
+            $allColumn = Coordinate::columnIndexFromString($allColumn); // 由列名转为列数 ('AB'->28)
             $allRow = $currentSheet->getHighestRow(); // 取得一共有多少行
-             $arr = [];
-            for ($currentRow = $startRow; $currentRow <= $allRow; $currentRow++)
-            {
+            $arr = [];
+            for($currentRow = $startRow; $currentRow <= $allRow; $currentRow++){
                 // 从第 1 列开始输出
-                 for ($currentColumn = 1; $currentColumn <= $allColumn; $currentColumn++)
-                {
+                for($currentColumn = 1; $currentColumn <= $allColumn; $currentColumn++){
                     $val = $currentSheet->getCellByColumnAndRow($currentColumn, $currentRow)->getValue();
                     $arr[$currentRow][] = trim($val);
                 }
                 $arr[$currentRow] = array_filter($arr[$currentRow]);
                 // 统计连续空行
-                 if (empty($arr[$currentRow]) && $emptyRowNum <= 50)
-                {
-                    $emptyRowNum++ ;
-                }
-                else
-                {
+                if (empty($arr[$currentRow]) && $emptyRowNum <= 50){
+                    $emptyRowNum++;
+                }else{
                     $emptyRowNum = 0;
                 }
                 // 防止坑队友的同事在 excel 里面弄出很多的空行，陷入很漫长的循环中，设置如果连续超过 50 个空行就退出循环，返回结果
-                 // 连续 50 行数据为空，不再读取后面行的数据，防止读满内存
-                 if ($emptyRowNum > 50)
-                {
+                // 连续 50 行数据为空，不再读取后面行的数据，防止读满内存
+                if ($emptyRowNum > 50){
                     break;
                 }
             }
             $excleDatas[$i] = $arr; // 多个 sheet 的数组的集合
         }
         // 这里我只需要用到第一个 sheet 的数据，所以只返回了第一个 sheet 的数据
-         $returnData = $excleDatas ? array_shift($excleDatas) : [];
+        $returnData = $excleDatas ? array_shift($excleDatas) : [];
         // 第一行数据就是空的，为了保留其原始数据，第一行数据就不做 array_fiter 操作；
-        $returnData = $returnData && isset($returnData[$startRow]) && !empty($returnData[$startRow])  ? array_filter($returnData) : $returnData;
+        $returnData = $returnData && isset($returnData[$startRow]) && !empty($returnData[$startRow]) ? array_filter($returnData) : $returnData;
+
         return $returnData;
     }
 
@@ -221,32 +202,32 @@ final class ExcelHelper
      *
      * @param array $array 头部规则
      * @return false|mixed|null|string 内容值
-      */
+     */
     protected static function formatting(array $array, $value, $row)
     {
         !isset($array[2]) && $array[2] = 'text';
-        switch ($array[2])
-        {
+        switch($array[2]){
             // 文本
-             case 'text' :
+            case 'text' :
                 return $value;
                 break;
             // 日期
-             case  'date' :
+            case  'date' :
                 return !empty($value) ? date($array[3], $value) : null;
                 break;
             // 选择框
-             case  'selectd' :
-                return  $array[3][$value] ?? null ;
+            case  'selectd' :
+                return $array[3][$value] ?? null;
                 break;
             // 匿名函数
-             case  'function' :
+            case  'function' :
                 return isset($array[3]) ? call_user_func($array[3], $row) : null;
                 break;
             // 默认
-             default :
+            default :
                 break;
         }
+
         return null;
     }
 
@@ -260,21 +241,17 @@ final class ExcelHelper
     protected static function formattingField($row, $field)
     {
         $newField = explode('.', $field);
-        if(count($newField) == 1)
-        {
+        if (count($newField) == 1){
             return $row[$field];
         }
-        foreach ($newField as $item)
-        {
-            if(isset($row[$item]))
-            {
+        foreach($newField as $item){
+            if (isset($row[$item])){
                 $row = $row[$item];
-            }
-            else
-            {
+            }else{
                 break;
             }
         }
+
         return is_array($row) ? false : $row;
     }
 }
